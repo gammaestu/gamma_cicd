@@ -25,16 +25,10 @@ jobs:
       - name: Build APK Release
         run: flutter build apk --release
 
-      - name: Setup Node.js (needed for upload-artifact)
+      - name: Setup Node.js (optional, required for some actions)
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Send APK to Telegram
         uses: appleboy/telegram-action@v0.1.1
