@@ -19,6 +19,14 @@ jobs:
         with:
           flutter-version: '3.7.2'
 
+      - name: Check Flutter version and environment
+        run: |
+          flutter --version
+          flutter doctor -v
+
+      - name: Clear Flutter Pub Cache
+        run: flutter pub cache repair
+
       - name: Install Dependencies
         run: flutter pub get
 
@@ -37,4 +45,3 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           document: build/app/outputs/flutter-apk/app-release.apk
           message: "🎉 Build APK selesai! Project: gamma_cicd"
-# 
