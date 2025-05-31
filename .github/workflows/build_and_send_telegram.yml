@@ -24,6 +24,9 @@ jobs:
           flutter --version
           flutter doctor -v
 
+      - name: Clean Flutter build (optional, tapi direkomendasikan)
+        run: flutter clean
+
       - name: Clear Flutter Pub Cache
         run: flutter pub cache repair
 
