@@ -17,14 +17,14 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.6'
+          flutter-version: '3.10.5'  # Flutter versi terbaru yang pakai Dart 3.5+
 
       - name: Check Flutter version and environment
         run: |
           flutter --version
           flutter doctor -v
 
-      - name: Clean Flutter build (optional)
+      - name: Clean Flutter build (optional, tapi direkomendasikan)
         run: flutter clean
 
       - name: Clear Flutter Pub Cache
@@ -36,7 +36,7 @@ jobs:
       - name: Build APK Release
         run: flutter build apk --release
 
-      - name: Setup Node.js (optional)
+      - name: Setup Node.js (optional, untuk action telegram)
         uses: actions/setup-node@v3
         with:
           node-version: '16'
