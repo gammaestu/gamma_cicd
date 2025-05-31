@@ -1,23 +1,45 @@
+name: Build APK Flutter and Send Telegram
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.7.2'
 
-      - run: flutter pub get
+      - name: Install Dependencies
+        run: flutter pub get
 
-      - run: flutter build apk --release
+      - name: Build APK Release
+        run: flutter build apk --release
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node.js (needed for upload-artifact)
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v2
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Send APK to Telegram
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          document: build/app/outputs/flutter-apk/app-release.apk
+          message: "🎉 Build APK selesai! Project: gamma_cicd"
