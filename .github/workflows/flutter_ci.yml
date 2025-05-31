@@ -1,30 +1,30 @@
-name: Flutter CI
+name: Build APK
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
+    branches: [main]
 
 jobs:
-  build:
-    name: Build & Test
+  build-apk:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.6' # sesuaikan versi kamu
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.6'  # Dart 3.7.3
 
-      - name: Install dependencies
-        run: flutter pub get
+    - name: Install dependencies
+      run: flutter pub get
 
-      - name: Analyze code
-        run: flutter analyze
+    - name: Build APK
+      run: flutter build apk
 
-      - name: Run tests
-        run: flutter test
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
